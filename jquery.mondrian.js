@@ -1,7 +1,6 @@
 // Plugin template courtesy of 
 // http://www.learningjquery.com/2007/10/a-plugin-development-pattern
 (function($) {
-
     $.fn.mondrian = function(options) {
 
         var opts = $.extend({}, $.fn.mondrian.defaults, options);
@@ -20,18 +19,29 @@
 								   'top':'0',
 								   'left':'0'});
 
+			var x_coords = [],
+				y_coords = [];
+
+			for(i = 0; i < o.linesX; i++) {
+				x_coords.push(Math.floor(Math.random() * height));
+			}
+			for(i = 0; i < o.linesY; i++) {
+				y_coords.push(Math.floor(Math.random() * width));
+			}
 
 			var ctx = canvas[0].getContext("2d");
 			ctx.strokeStyle = o.foreground;
 			ctx.lineWidth = o.lineWidth;
-			canvas.mondrian.lineX(ctx,150);
-			canvas.mondrian.lineX(ctx,250);
-			canvas.mondrian.lineY(ctx,80);
-			canvas.mondrian.lineY(ctx,40);
+
+			$.each(x_coords, function(i,v) {
+				$this.mondrian.lineX(ctx, v);
+			});
+
+			$.each(y_coords, function(i,v) {
+				$this.mondrian.lineY(ctx, v);
+			});
 
 			canvas.prependTo($this);
-
-	  		// actual code goes here
         });
     };
     
@@ -51,8 +61,11 @@
 
     $.fn.mondrian.defaults = {
         foreground: '#000',
-        background: 'yellow',
-        lineWidth: 4,
-	    lineCap: 'square'
+        background: '#fff',
+        lineWidth: 3,
+	    lineCap: 'square',
+		linesX: 4,
+		linesY: 6,
+		colors: ['red','green','blue']
     };
 })(jQuery);
