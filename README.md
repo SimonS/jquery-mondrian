@@ -5,12 +5,12 @@ Only really tested in modern (non-IE) browsers on divs and the body (see it in u
 Customisable settings:
 
     $.fn.mondrian.defaults = {
-        foreground: '#000',
-        background: '#fff',
-        lineWidth: 3,
-	    lineCap: 'square',
-		linesX: 4,
+        foreground: '#000',
+		background: '#fff',
+        lineWidth: 3,
+		lineCap: 'square',
+        linesX: 4,
 		linesY: 6,
-		colors: ['red','green','blue']
-    };
+        colors: ['red','green','blue']
+    };
 
