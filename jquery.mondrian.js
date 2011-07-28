@@ -11,6 +11,7 @@
             $this = $(this);
 
             var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+			$this.colors = o.colors.slice(0);
 	  		
 			$this.mondrian.paint($this, o);
 
@@ -20,27 +21,70 @@
 
 				$this.mondrian.paint($this, o);
 			});
+
+			$this.click(function(e) {
+				var x = e.pageX / $this.width,
+				    y = e.pageY / $this.height,
+					nearest = $this.mondrian.getNearestXY(x,y),
+					current_color, next_color;
+
+				if((rect_no = $this.mondrian.isRectFilled(nearest)) !== false) {
+					//change or delete a color
+					current_color = $this.colors[rect_no];
+
+					$.each(o.colors, function(i, v) {
+						if(v == current_color) {
+							next_color = i + 1;
+							if(next_color >= o.colors.length) {
+								$this.colors.splice(rect_no, 1);
+								$this.rects.splice(rect_no, 1);
+							} else {
+								$this.colors[rect_no] = o.colors[next_color];
+							}
+						}
+					});
+				} else {
+					//add a color
+					next_color = 0;
+					$this.rects.push(nearest);
+					$this.colors.push(o.colors[next_color]);
+				}
+
+				$(window).trigger('resize');
+			});
         });
     };
+
+  	$.fn.mondrian.isRectFilled = function(rect) {
+		var result = false;
+		$.each($this.rects, function(i,v) {
+			if(this.x1 == rect.x1 && this.y1 == rect.y1) {
+				result = i;
+			}
+		}); 
+
+		return result;
+	}
     
 	$.fn.mondrian.paint = function($this, o) {
-		var width = $(window).width(), //$this.width(),
-			height = $(window).height(); //$this.height();
+		$this.width = $(window).width(), //$this.width(),
+		$this.height = $(window).height(); //$this.height();
 
-		var canvas = $this.mondrian.createCanvas(width, height, o.background);
+		var canvas = $this.mondrian.createCanvas($this.width, $this.height, o.background);
 
 		if($this.x_coords === undefined) {
-			$this.x_coords = $this.mondrian.generateCoordinates(o.linesX, height);
-			$this.y_coords = $this.mondrian.generateCoordinates(o.linesY, width);
+			
+			$this.x_coords = $this.mondrian.generateCoordinates(o.linesX, $this.height);
+			$this.y_coords = $this.mondrian.generateCoordinates(o.linesY, $this.width);
 
-			$this.rects = $this.mondrian.pickRectangles(o.colors.length, width, height);
+			$this.rects = $this.mondrian.pickRectangles($this.colors.length, $this.width, $this.height);
 		} 
 
 		var ctx = canvas[0].getContext("2d");
 		ctx.strokeStyle = o.foreground;
 		ctx.lineWidth = o.lineWidth;
 
-		ctx = $this.mondrian.paintCanvas(ctx, $this.x_coords, $this.y_coords, width, height, o.colors);
+		ctx = $this.mondrian.paintCanvas(ctx, $this.x_coords, $this.y_coords, $this.width, $this.height, $this.colors);
 		canvas.prependTo($this);
 	}
 
@@ -55,6 +99,25 @@
 					'z-index':'-1'});
 	}
 	
+	$.fn.mondrian.getNearestXY = function(x, y) {
+		var near_x, near_y;
+		$.each($this.y_coords, function(i, v) {
+			if(x > v) {
+				near_y = v;
+				next_y = i+1 < $this.y_coords.length ? $this.y_coords[i+1] : $this.width;
+			}
+		});
+
+		$.each($this.x_coords, function(i, v) {
+			if(y > v) {
+				near_x = v;
+				next_x = i+1 < $this.x_coords.length ? $this.x_coords[i+1] : $this.height;
+			}
+		});
+
+		return {x1:near_x, y1:near_y, rect_height: next_y - near_y, rect_width: next_x-near_x}
+	}
+
 	$.fn.mondrian.generateCoordinates = function(max_lines) {
 		var coords = [];
 
@@ -68,6 +131,9 @@
 	$.fn.mondrian.pickRectangles = function(rectangle_count, width, height) {
 		var rects = [],
 			x1, x2, y1, y2, x, y, rect_height;
+
+		$this.x_coords.push(0);
+		$this.y_coords.push(0);
 
 		$this.x_coords.sort(function(a,b) {
 			return a-b;
@@ -92,6 +158,12 @@
 	}
 
 	$.fn.mondrian.paintCanvas = function(ctx, x_coords, y_coords, width, height, colors) {
+		$.each(colors, function(i,v) {
+			var rect = $this.rects[i];
+
+			$this.mondrian.fillRect(ctx,rect.y1,rect.x1,rect.rect_height,rect.rect_width, $this.colors[i], width, height)
+		});
+
 		$.each(x_coords, function(i,v) {
 			$this.mondrian.lineX(ctx, v * height);
 		});
@@ -99,15 +171,8 @@
 		$.each(y_coords, function(i,v) {
 			$this.mondrian.lineY(ctx, v * width);
 		});
-		
-		$.each(colors, function(i,v) {
-			var rect = $this.rects[i];
-
-			$this.mondrian.fillRect(ctx,rect.y1,rect.x1,rect.rect_height,rect.rect_width,v, width, height)
-		});
 
 		return ctx;
-
 	}
 
     $.fn.mondrian.lineX = function(ctx,y) {
@@ -127,7 +192,6 @@
 	$.fn.mondrian.fillRect = function(ctx, x1,y1, w,h, color, width, height) {
 		ctx.fillStyle = color;
 		ctx.fillRect(x1 * width,y1 * height,w * width ,h * height);
-		ctx.strokeRect(x1 * width,y1 * height,w * width ,h * height);
 		ctx.stroke()
 	}
 
