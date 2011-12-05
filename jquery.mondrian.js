@@ -23,8 +23,8 @@
 			});
 
 			$this.click(function(e) {
-				var x = e.pageX / $this.width,
-				    y = e.pageY / $this.height,
+				var x = e.clientX / $this.width,
+				    y = e.clientY / $this.height,
 					nearest = $this.mondrian.getNearestXY(x,y),
 					current_color, next_color;
 
