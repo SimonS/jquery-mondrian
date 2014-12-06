@@ -1,0 +1,23 @@
+{
+  "name": "jquery-mondrian",
+  "version": "0.1.0",
+  "description": "Programmatically generate Piet Mondrian-inspired canvases",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SimonS/jquery-mondrian.git"
+  },
+  "author": "Simon Scarfe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SimonS/jquery-mondrian/issues"
+  },
+  "homepage": "https://github.com/SimonS/jquery-mondrian",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^0.8.1",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
