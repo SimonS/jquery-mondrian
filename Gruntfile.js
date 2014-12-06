@@ -7,8 +7,13 @@ module.exports = function(grunt) {
             options: {
                 specs: 'spec/*.js'
             }
+        },
+        watch: {
+            files: '**/*.js',
+            tasks: ['jasmine']
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 };
