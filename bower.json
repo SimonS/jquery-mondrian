@@ -1,0 +1,20 @@
+{
+  "name": "jquery-mondrian",
+  "version": "0.1.0",
+  "homepage": "https://github.com/SimonS/jquery-mondrian",
+  "authors": [
+    "Simon Scarfe <simon.scarfe@gmail.com>"
+  ],
+  "main": "src/mondrian.jquery.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1"
+  }
+}
