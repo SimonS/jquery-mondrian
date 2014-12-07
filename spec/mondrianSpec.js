@@ -1,7 +1,7 @@
-describe("JqueryMondrian", function() {
+describe("JqueryMondrian", function () {
 
-  it("should run some tests", function() {
-    expect(true).toBe(true);
-  });
+    it("should extend jQuery with a mondrian method", function () {
+        expect(jQuery.fn.mondrian).toBeDefined();
+    });
 
 });
