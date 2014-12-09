@@ -3,11 +3,19 @@
 <head>
 <meta charset="utf-8" />
 <title>Canvas experiments</title>
-<script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="../src/jquery.mondrian.js"></script>
+<script src="../bower_components/requirejs/require.js"></script>
 <script>
-$(function(){
-	$('body').mondrian();
+requirejs.config({
+    baseUrl: '../src',
+    paths: {
+        jquery: '../bower_components/jquery/dist/jquery'
+    }
+});
+
+require(['jquery.mondrian'], function($) {
+    $(function(){
+        $('body').mondrian();
+    });
 });
 </script>
 
