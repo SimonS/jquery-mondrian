@@ -8,7 +8,16 @@ module.exports = function(grunt) {
                 vendor: [
                     'bower_components/jquery/dist/jquery.js'
                 ],
-                specs: 'spec/*.js'
+                specs: 'spec/*.js',
+                template: require('grunt-template-jasmine-requirejs'),
+                templateOptions: {
+                    requireConfig: {
+                        baseUrl: 'src',
+                        paths: {
+                            jquery: 'bower_components/jquery/dist/jquery'
+                        }
+                    }
+                }
             }
         },
         watch: {
@@ -23,6 +32,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 
     grunt.registerTask('test', ['jshint', 'jasmine']);
     grunt.registerTask('default', ['test']);
