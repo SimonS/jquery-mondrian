@@ -82,7 +82,7 @@ define(['jquery'], function (jQuery) {
             ctx.strokeStyle = o.foreground;
             ctx.lineWidth = o.lineWidth;
 
-            ctx = paintCanvas(ctx, $this.x_coords, $this.y_coords, $this.width, $this.height, $this.colors);
+            paintCanvas(ctx, $this.x_coords, $this.y_coords, $this.width, $this.height, $this.colors);
             canvas.prependTo($this);
         }
 
