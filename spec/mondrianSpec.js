@@ -5,5 +5,10 @@ define(['jquery', 'jquery.mondrian'], function(jQuery) {
             expect(jQuery.fn.mondrian).toBeDefined();
         });
 
+        it("should paint a canvas on the window", function () {
+            jQuery('body').mondrian();
+            expect(jQuery('canvas').length).toEqual(1);
+        });
+
     });
 });
