@@ -196,13 +196,13 @@ define(['jquery'], function (jQuery) {
         }
 
         $.fn.mondrian.defaults = {
-            foreground: '#000',
+            foreground: '#313131',
             background: '#fff',
             lineWidth: 3,
             lineCap: 'square',
-            linesX: 4,
-            linesY: 6,
-            colors: ['red', 'green', 'blue']
+            linesX: 3,
+            linesY: 4,
+            colors: ['#336799', '#ffcc67', '#d23800']
         };
     })(jQuery);
 });
