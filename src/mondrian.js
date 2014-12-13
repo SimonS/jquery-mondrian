@@ -3,16 +3,20 @@ define(function () {
         background: '#fff',
         foreground: '#000',
         lineWidth: 4
-};
+    };
 
     function Mondrian(canvas, options) {
         opts = options || opts;
         cnv = canvas;
+        setUpContext();
+        clearCanvas();
+    }
+
+    function setUpContext() {
         ctx = cnv.getContext('2d');
         ctx.fillStyle = opts.background;
         ctx.strokeStyle = opts.foreground;
         ctx.lineWidth = opts.lineWidth;
-        clearCanvas();
     }
 
     function clearCanvas() {
@@ -20,11 +24,19 @@ define(function () {
     }
 
     Mondrian.prototype.drawLineX = function(y) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(cnv.width, y);
-        ctx.stroke();
+        drawLine({x: 0, y: y}, {x: cnv.width, y: y});
     };
+
+    Mondrian.prototype.drawLineY = function(x) {
+        drawLine({x: x, y: 0}, {x: x, y: cnv.height});
+    };
+
+    function drawLine(from, to) {
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.stroke();
+    }
 
     return Mondrian;
 });
