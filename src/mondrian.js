@@ -12,17 +12,6 @@ define(function () {
         clearCanvas();
     }
 
-    function setUpContext() {
-        ctx = cnv.getContext('2d');
-        ctx.fillStyle = opts.background;
-        ctx.strokeStyle = opts.foreground;
-        ctx.lineWidth = opts.lineWidth;
-    }
-
-    function clearCanvas() {
-        ctx.fillRect(0, 0, cnv.width, cnv.height);
-    }
-
     Mondrian.prototype.drawLineX = function(y) {
         drawLine({x: 0, y: y}, {x: cnv.width, y: y});
     };
@@ -30,6 +19,17 @@ define(function () {
     Mondrian.prototype.drawLineY = function(x) {
         drawLine({x: x, y: 0}, {x: x, y: cnv.height});
     };
+
+    function setUpContext() {
+        ctx = cnv.getContext('2d');
+        ctx.strokeStyle = opts.foreground;
+        ctx.lineWidth = opts.lineWidth;
+    }
+
+    function clearCanvas() {
+        ctx.fillStyle = opts.background;
+        ctx.fillRect(0, 0, cnv.width, cnv.height);
+    }
 
     function drawLine(from, to) {
         ctx.beginPath();
