@@ -24,5 +24,11 @@ define(['jquery', 'mondrian'], function($, Mondrian) {
             mondrian.drawLineY(50);
             assertPixel(50, 0, [0, 0, 0]);
         });
+
+        it("should draw a rectangle correctly", function() {
+            var mondrian = new Mondrian(canvas);
+            mondrian.drawRectangle(10, 10, 10, 10, '#f00');
+            assertPixel(14, 14, [255, 0, 0]);
+        });
     });
 });

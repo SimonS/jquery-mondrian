@@ -20,6 +20,11 @@ define(function () {
         drawLine({x: x, y: 0}, {x: x, y: cnv.height});
     };
 
+    Mondrian.prototype.drawRectangle = function(x, y, width, height, colour) {
+        ctx.fillStyle = colour;
+        ctx.fillRect(x, y, width, height, colour);
+    };
+
     function setUpContext() {
         ctx = cnv.getContext('2d');
         ctx.strokeStyle = opts.foreground;
